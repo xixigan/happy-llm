@@ -88,9 +88,9 @@ class OpenAIEmbedding(BaseEmbeddings):
         if self.is_api:
             self.client = OpenAI()
             # 从环境变量中获取 硅基流动 密钥
-            self.client.api_key = os.getenv("OPENAI_API_KEY")
+            self.client.api_key = "sk-blmerguppzezjnlqiioprwugiqsksqfrtymundjuhtpipzoo"
             # 从环境变量中获取 硅基流动 的基础URL
-            self.client.base_url = os.getenv("OPENAI_BASE_URL")
+            self.client.base_url = "https://api.siliconflow.cn/v1/"
     
     def get_embedding(self, text: str, model: str = "BAAI/bge-m3") -> List[float]:
         """

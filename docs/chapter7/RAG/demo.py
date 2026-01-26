@@ -1,3 +1,5 @@
+import os
+import sys
 from VectorBase import VectorStore
 from utils import ReadFiles
 from LLM import OpenAIChat
@@ -14,6 +16,12 @@ vector.persist(path='storage') # 将向量和文档内容保存到storage目录�
 
 question = 'RAG的原理是什么？'
 
-content = vector.query(question, EmbeddingModel=embedding, k=1)[0]
-chat = OpenAIChat(model='Qwen/Qwen2.5-32B-Instruct')
-print(chat.chat(question, [], content))
+results = vector.query(question, EmbeddingModel=embedding, k=1)
+if not results:
+    print("没有检索到相似文档，query 返回空。请确认是否已生成向量数据库。")
+    content = ""
+else:
+    content = results[0]
+
+chat = OpenAIChat(model='Qwen/Qwen3-VL-8B-Instruct')
+print("答案:", chat.chat(question, [], content))

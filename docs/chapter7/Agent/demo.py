@@ -6,13 +6,13 @@ from openai import OpenAI
 
 if __name__ == "__main__":
     client = OpenAI(
-        api_key="your siliconflow api key",
-        base_url="https://api.siliconflow.cn/v1",
+        api_key="ms-5e5cbbee-fd94-41e4-8579-bafd79eb559e",
+        base_url='https://api-inference.modelscope.cn/v1',
     )
 
     agent = Agent(
         client=client,
-        model="Qwen/Qwen2.5-32B-Instruct",
+        model="Qwen/Qwen3-VL-8B-Instruct",
         tools=[get_current_datetime, search_wikipedia, get_current_temperature],
     )
 

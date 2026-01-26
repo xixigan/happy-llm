@@ -13,8 +13,8 @@ st.set_page_config(
 
 # --- OpenAI客户端初始化 ---
 client = OpenAI(
-    api_key="your siliconflow api key",
-    base_url="https://api.siliconflow.cn/v1",  
+    api_key="ms-5e5cbbee-fd94-41e4-8579-bafd79eb559e",
+    base_url='https://api-inference.modelscope.cn/v1', 
 )
 
 # --- Agent初始化 ---
@@ -23,7 +23,7 @@ def load_agent():
     """创建并缓存Agent实例。"""
     return Agent(
         client=client,
-        model="Qwen/Qwen2.5-32B-Instruct",  # 使用的模型
+        model="Qwen/Qwen3-VL-8B-Instruct",  # 使用的模型
         tools=[get_current_datetime, search_wikipedia, get_current_temperature],  # Agent可以使用的工具
     )
 

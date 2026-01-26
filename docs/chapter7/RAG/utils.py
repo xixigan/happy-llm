@@ -45,6 +45,33 @@ class ReadFiles:
                     file_list.append(os.path.join(filepath, filename))
                 elif filename.endswith(".pdf"):
                     file_list.append(os.path.join(filepath, filename))
+                # 添加代码文件类型支持
+                elif filename.endswith(".py"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".js"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".html"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".css"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".java"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".cpp"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".c"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".go"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".rb"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".php"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".ts"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".tsx"):
+                    file_list.append(os.path.join(filepath, filename))
+                elif filename.endswith(".jsx"):
+                    file_list.append(os.path.join(filepath, filename))
         return file_list
 
     def get_content(self, max_token_len: int = 600, cover_content: int = 150):
@@ -141,8 +168,15 @@ class ReadFiles:
             return cls.read_markdown(file_path)
         elif file_path.endswith('.txt'):
             return cls.read_text(file_path)
+        # 将代码文件作为文本文件处理
+        elif file_path.endswith('.py') or file_path.endswith('.js') or file_path.endswith('.html') or \
+             file_path.endswith('.css') or file_path.endswith('.java') or file_path.endswith('.cpp') or \
+             file_path.endswith('.c') or file_path.endswith('.go') or file_path.endswith('.rb') or \
+             file_path.endswith('.php') or file_path.endswith('.ts') or file_path.endswith('.tsx') or \
+             file_path.endswith('.jsx'):
+            return cls.read_text(file_path)
         else:
-            raise ValueError("Unsupported file type")
+            raise ValueError(f"Unsupported file type: {os.path.splitext(file_path)[1]}")
 
     @classmethod
     def read_pdf(cls, file_path: str):

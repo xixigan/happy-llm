@@ -30,7 +30,7 @@ class VectorStore:
     def persist(self, path: str = 'storage'):
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(f"{path}/doecment.json", 'w', encoding='utf-8') as f:
+        with open(f"{path}/document.json", 'w', encoding='utf-8') as f:
             json.dump(self.document, f, ensure_ascii=False)
         if self.vectors:
             with open(f"{path}/vectors.json", 'w', encoding='utf-8') as f:
@@ -39,14 +39,20 @@ class VectorStore:
     def load_vector(self, path: str = 'storage'):
         with open(f"{path}/vectors.json", 'r', encoding='utf-8') as f:
             self.vectors = json.load(f)
-        with open(f"{path}/doecment.json", 'r', encoding='utf-8') as f:
+        with open(f"{path}/document.json", 'r', encoding='utf-8') as f:
             self.document = json.load(f)
 
     def get_similarity(self, vector1: List[float], vector2: List[float]) -> float:
         return BaseEmbeddings.cosine_similarity(vector1, vector2)
 
     def query(self, query: str, EmbeddingModel: BaseEmbeddings, k: int = 1) -> List[str]:
+        # 如果向量数据库为空，返回空列表
+        if not hasattr(self, 'vectors') or not self.vectors:
+            return []
         query_vector = EmbeddingModel.get_embedding(query)
         result = np.array([self.get_similarity(query_vector, vector)
                           for vector in self.vectors])
+        # 若无有效相似度，返回空列表
+        if result.size == 0:
+            return []
         return np.array(self.document)[result.argsort()[-k:][::-1]].tolist()
